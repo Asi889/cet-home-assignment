@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  title       String
+  description String
+  owner       String
+  status      String
+  ticket      Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId    String   @db.ObjectId
+}
+
+model Ticket {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  title       String
+  description String
+  owner       String
+  dueDate     DateTime?
+  status      Status    @default(OPEN)
+  priority    String
+  tasks       Task[]
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  DONE
+}
