@@ -7,7 +7,7 @@ export async function POST(req: any, res: NextApiResponse) {
   return new Response(JSON.stringify(req.body), { status: 200 });
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   const allTickets = await getAllTickets();
   return new Response(JSON.stringify(allTickets), { status: 200 });
 }
